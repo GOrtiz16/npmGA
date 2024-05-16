@@ -28,12 +28,13 @@ jobs:
           node-version: 18.x
 
       - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm install
         working-directory: ./app
 
       - uses: azure/docker-login@v1
         with:
-          login-server: $REGISTRY_SERVER
+          login-server: ${{ vars.REGISTRY_SERVER }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
